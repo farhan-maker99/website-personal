@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konsultasi Dokter - Nurself</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body { font-family: 'Arial', sans-serif; }
+        .hidden { display: none; }
+        .btn { padding: 12px 24px; border-radius: 30px; font-weight: bold; transition: 0.3s; }
+        .btn-primary { background-color: #ff4081; color: white; }
+        .btn-primary:hover { background-color: #e60073; }
+        .card { background: white; border-radius: 15px; padding: 16px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Header -->
+    <header class="bg-pink-500 text-white py-4 text-center">
+        <h1 class="text-2xl font-bold">Konsultasi Dokter</h1>
+        <nav class="space-x-4 text-sm">
+                <a href="nurselffixhome.html" class="nav-link" onclick="showSection('home')">Home</a>
+                <a href="tokoshoppage.html" class="nav-link" onclick="showSection('shop')">Shop</a>
+                <a href="aipage.html" class="nav-link" onclick="showSection('ai-analyst')">AI Analyst</a>
+                <a href="konsuldokterpage.html" class="nav-link" onclick="showSection('consult-doctor')">Consultation</a>
+        </nav>
+    </header>
+
+    <!-- Pilih Dokter -->
+    <div class="container mx-auto px-4 py-6">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Pilih Dokter</h2>
+        <div id="doctors-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+    </div>
+
+    <!-- Modal Pemesanan -->
+    <div id="booking-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+        <div class="card w-96">
+            <h2 class="text-xl font-bold mb-2">Konfirmasi Pemesanan</h2>
+            <p id="doctor-name" class="text-gray-700"></p>
+            <label class="block mt-4 text-gray-700">Pilih Jadwal:</label>
+            <select id="schedule" class="w-full p-2 border rounded-lg mt-2">
+                <option value="09:00">09:00</option>
+                <option value="12:00">12:00</option>
+                <option value="15:00">15:00</option>
+            </select>
+            <p class="text-gray-700 mt-4">Harga: <span id="doctor-price"></span></p>
+            <button id="pay-btn" class="btn btn-primary w-full mt-4">Bayar Sekarang</button>
+            <button id="close-modal" class="btn w-full mt-2 bg-gray-300">Batal</button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        const doctors = [
+            { name: "Dr. Siti Aulia, Sp.KK", price: 50000 },
+            { name: "Dr. Rian Pratama, Sp.KK", price: 75000 },
+            { name: "Dr. Indah Lestari, Sp.KK", price: 60000 }
+        ];
+
+        const doctorsList = document.getElementById("doctors-list");
+        const bookingModal = document.getElementById("booking-modal");
+        const doctorName = document.getElementById("doctor-name");
+        const doctorPrice = document.getElementById("doctor-price");
+        const payBtn = document.getElementById("pay-btn");
+        const closeModal = document.getElementById("close-modal");
+
+        doctors.forEach((doctor, index) => {
+            let doctorCard = document.createElement("div");
+            doctorCard.className = "card flex items-center p-4";
+            doctorCard.innerHTML = `
+                <div class="flex-1">
+                    <h3 class="text-lg font-bold">${doctor.name}</h3>
+                    <p class="text-gray-600">Rp ${doctor.price.toLocaleString()}</p>
+                </div>
+                <button class="btn btn-primary" onclick="bookDoctor(${index})">Pesan</button>
+            `;
+            doctorsList.appendChild(doctorCard);
+        });
+
+        function bookDoctor(index) {
+            doctorName.textContent = doctors[index].name;
+            doctorPrice.textContent = "Rp " + doctors[index].price.toLocaleString();
+            bookingModal.classList.remove("hidden");
+
+            payBtn.onclick = () => {
+                alert("Pembayaran berhasil! Anda akan dihubungi oleh dokter.");
+                bookingModal.classList.add("hidden");
+            };
+        }
+
+        closeModal.addEventListener("click", () => bookingModal.classList.add("hidden"));
+    </script>
+
+</body>
+</html>

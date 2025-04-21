@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nurself - Beauty & AI Analyst</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body, html { height: 100%; margin: 0; font-family: 'Playfair Display', serif; }
+        .hidden { display: none; }
+        .gradient-bg { background: linear-gradient(to right, #fbc2eb, #a6c1ee); }
+        .rounded-soft { border-radius: 20px; }
+        .btn { padding: 12px 24px; border-radius: 30px; font-weight: bold; transition: 0.3s; }
+        .btn-primary { background-color: #ff4081; color: white; }
+        .btn-primary:hover { background-color: #e60073; }
+        .full-height { min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Header -->
+    <header class="gradient-bg text-white py-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <h1 class="text-2xl font-bold">Nurself</h1>
+            <nav class="space-x-4 text-sm">
+                <a href="nurselffixhome.html" class="nav-link" onclick="showSection('home')">Home</a>
+                <a href="tokoshoppage.html" class="nav-link" onclick="showSection('shop')">Shop</a>
+                <a href="aipage.html" class="nav-link" onclick="showSection('ai-analyst')">AI Analyst</a>
+                <a href="konsuldokterpage.html" class="nav-link" onclick="showSection('consult-doctor')">Consultation</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Konten Utama -->
+    <div class="container mx-auto px-4 full-height">
+        
+        <!-- Home -->
+        <section id="home">
+            <div class="bg-white p-6 rounded-soft shadow-lg text-center">
+                <h2 class="text-2xl font-bold text-gray-800">Welcome to Nurself</h2>
+                <p class="text-gray-600 mt-2">AI-powered skincare & beauty store</p>
+                <div class="mt-4 flex justify-center space-x-2">
+                    <button class="btn btn-primary" onclick="showSection('shop')">Shop Now</button>
+                    <button class="btn btn-primary" onclick="showSection('ai-analyst')">AI Analyst</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Analyst -->
+        <section id="ai-analyst" class="hidden">
+            <div class="bg-white p-6 rounded-soft shadow-lg text-center">
+                <h2 class="text-2xl font-bold text-gray-800">AI Skin Analyst</h2>
+                <p class="text-gray-600 mt-2">Analyze your skin with AI</p>
+                <div class="flex flex-col items-center mt-4">
+                    <video id="video" width="100%" height="auto" autoplay class="border-4 border-pink-500 rounded-lg"></video>
+                    <button id="capture-btn" class="btn btn-primary mt-4">Capture Image</button>
+                    <canvas id="canvas" width="320" height="240" class="hidden"></canvas>
+                    <img id="captured-image" class="hidden border-2 border-gray-300 rounded-lg mt-4" width="320" height="240">
+                    <p id="analysis-result" class="text-pink-600 font-bold mt-4 hidden">Analyzing...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Promosi Produk -->
+        <section class="bg-pink-100 p-6 rounded-soft shadow-lg mt-4">
+            <h2 class="text-xl font-bold text-gray-800 text-center">Exclusive Beauty Deals</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+                <div class="bg-white p-4 rounded-soft shadow-lg text-center">
+                    <img src="https://via.placeholder.com/150" alt="Promo 1" class="w-full h-40 object-cover rounded-lg mb-2">
+                    <h3 class="font-bold">Lipstick Glow Set</h3>
+                    <p class="text-pink-600 font-bold">Rp 99.000</p>
+                    <button class="btn btn-primary mt-2">Shop Now</button>
+                </div>
+                <div class="bg-white p-4 rounded-soft shadow-lg text-center">
+                    <img src="https://via.placeholder.com/150" alt="Promo 2" class="w-full h-40 object-cover rounded-lg mb-2">
+                    <h3 class="font-bold">Brightening Serum</h3>
+                    <p class="text-pink-600 font-bold">Rp 139.000</p>
+                    <button class="btn btn-primary mt-2">Shop Now</button>
+                </div>
+                <div class="bg-white p-4 rounded-soft shadow-lg text-center">
+                    <img src="https://via.placeholder.com/150" alt="Promo 3" class="w-full h-40 object-cover rounded-lg mb-2">
+                    <h3 class="font-bold">Makeup Essentials Kit</h3>
+                    <p class="text-pink-600 font-bold">Rp 199.000</p>
+                    <button class="btn btn-primary mt-2">Shop Now</button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="gradient-bg text-white py-4 text-center">
+        <p>© 2025 Nurself. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        function showSection(section) {
+            document.querySelectorAll("section").forEach(sec => sec.classList.add("hidden"));
+            document.getElementById(section).classList.remove("hidden");
+        }
+
+        // AI Analyst - Kamera & Analisis
+        const video = document.getElementById("video");
+        const captureBtn = document.getElementById("capture-btn");
+        const canvas = document.getElementById("canvas");
+        const capturedImage = document.getElementById("captured-image");
+        const analysisResult = document.getElementById("analysis-result");
+
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+            .then((stream) => {
+                video.srcObject = stream;
+            })
+            .catch((err) => {
+                console.error("Failed to access camera:", err);
+            });
+
+        captureBtn.addEventListener("click", () => {
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageDataURL = canvas.toDataURL("image/png");
+            capturedImage.src = imageDataURL;
+            capturedImage.classList.remove("hidden");
+
+            analysisResult.textContent = "Analyzing...";
+            analysisResult.classList.remove("hidden");
+
+            setTimeout(() => {
+                analysisResult.textContent = "Your skin looks hydrated! Try our Glow Serum.";
+            }, 2000);
+        });
+    </script>
+
+</body>
+</html>

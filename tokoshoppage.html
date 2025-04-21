@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nurself - Toko Kosmetik Online</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body { font-family: 'Arial', sans-serif; }
+        .hidden { display: none; }
+        .btn { padding: 12px 24px; border-radius: 30px; font-weight: bold; transition: 0.3s; }
+        .btn-primary { background-color: #ff4081; color: white; }
+        .btn-primary:hover { background-color: #e60073; }
+        .card { background: white; border-radius: 15px; padding: 16px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Header -->
+    <header class="bg-pink-500 text-white py-4 text-center">
+        <h1 class="text-2xl font-bold">Nurself - Toko Kosmetik</h1>
+        <nav class="space-x-4 text-sm">
+                <a href="nurselffixhome.html" class="nav-link" onclick="showSection('home')">Home</a>
+                <a href="tokoshoppage.html" class="nav-link" onclick="showSection('shop')">Shop</a>
+                <a href="aipage.html" class="nav-link" onclick="showSection('ai-analyst')">AI Analyst</a>
+                <a href="konsuldokterpage.html" class="nav-link" onclick="showSection('consult-doctor')">Consultation</a>
+        </nav>
+    </header>
+
+    <!-- Daftar Produk -->
+    <div class="container mx-auto px-4 py-6">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Produk Kosmetik</h2>
+        <div id="products-list" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+    </div>
+
+    <!-- Keranjang Belanja -->
+    <div class="fixed bottom-4 right-4 bg-pink-500 text-white p-4 rounded-full cursor-pointer shadow-lg" onclick="toggleCart()">
+        <i class="fas fa-shopping-cart"></i>
+    </div>
+
+    <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+        <div class="card w-96">
+            <h2 class="text-xl font-bold mb-2">Keranjang Belanja</h2>
+            <div id="cart-items" class="text-gray-700"></div>
+            <p class="text-gray-700 mt-4">Total: <span id="cart-total">Rp 0</span></p>
+            <button id="checkout-btn" class="btn btn-primary w-full mt-4">Checkout</button>
+            <button id="close-cart" class="btn w-full mt-2 bg-gray-300">Tutup</button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        const products = [
+            { name: "Serum Wajah Glowing", price: 120000, image: "https://via.placeholder.com/150" },
+            { name: "Lipstik Matte", price: 85000, image: "https://via.placeholder.com/150" },
+            { name: "Foundation Natural", price: 95000, image: "https://via.placeholder.com/150" }
+        ];
+
+        const productsList = document.getElementById("products-list");
+        const cartModal = document.getElementById("cart-modal");
+        const cartItems = document.getElementById("cart-items");
+        const cartTotal = document.getElementById("cart-total");
+        const checkoutBtn = document.getElementById("checkout-btn");
+        const closeCart = document.getElementById("close-cart");
+
+        let cart = [];
+
+        products.forEach((product, index) => {
+            let productCard = document.createElement("div");
+            productCard.className = "card text-center";
+            productCard.innerHTML = `
+                <img src="${product.image}" class="w-full h-32 object-cover rounded">
+                <h3 class="text-lg font-bold mt-2">${product.name}</h3>
+                <p class="text-gray-600">Rp ${product.price.toLocaleString()}</p>
+                <button class="btn btn-primary mt-2" onclick="addToCart(${index})">Tambah ke Keranjang</button>
+            `;
+            productsList.appendChild(productCard);
+        });
+
+        function addToCart(index) {
+            cart.push(products[index]);
+            updateCart();
+            alert("Produk ditambahkan ke keranjang!");
+        }
+
+        function updateCart() {
+            cartItems.innerHTML = "";
+            let total = 0;
+            cart.forEach((item, i) => {
+                total += item.price;
+                let cartItem = document.createElement("p");
+                cartItem.textContent = item.name + " - Rp " + item.price.toLocaleString();
+                cartItems.appendChild(cartItem);
+            });
+            cartTotal.textContent = "Rp " + total.toLocaleString();
+        }
+
+        function toggleCart() {
+            cartModal.classList.toggle("hidden");
+        }
+
+        checkoutBtn.onclick = () => {
+            if (cart.length === 0) {
+                alert("Keranjang masih kosong!");
+            } else {
+                alert("Pembayaran berhasil! Terima kasih telah berbelanja.");
+                cart = [];
+                updateCart();
+                toggleCart();
+            }
+        };
+
+        closeCart.onclick = () => cartModal.classList.add("hidden");
+    </script>
+
+</body>
+</html>
